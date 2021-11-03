@@ -23,20 +23,19 @@ public class EmployeeServiceImpl implements EmployeeService{
 
 	@Override
 	public void deleteEmployee(int id) {
-		// TODO Auto-generated method stub
+		empDAO.deleteEmployee(id);
 		
 	}
 
 	@Override
 	public void updateEmployee(Employee e) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	@Override
 	public Employee findEmployee(Employee e) throws EmployeeNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		return empDAO.findEmployee(e);
 	}
 
 }

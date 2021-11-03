@@ -18,6 +18,7 @@ public class EmployeeDAOMySQLImpl implements EmployeeDAO {
 	private ResultSet resultSet = null;
 	//performing database operations
 	private static final String INSERT_COMMAND = "INSERT INTO employees_tbl VALUES (?,?,?,?)"; // placeholder ---> ?
+	private static final String DELETE_COMMAND = "DELETE FROM employees_tbl WHERE id=?";
 	private static final String FIND_COMMAND = "SELECT * FROM employees_tbl WHERE id=?";
 	private static final String SELECT_ALL = "SELECT * FROM employees_tbl";
 	
@@ -65,20 +66,66 @@ public class EmployeeDAOMySQLImpl implements EmployeeDAO {
 
 	@Override
 	public void deleteEmployee(int id) {
-		// TODO Auto-generated method stub
+		int i = 0;
 		
+		try {
+			statement = conn.prepareStatement(DELETE_COMMAND);
+			statement.setInt(1, id);
+			i = statement.executeUpdate();
+		} catch (SQLException e2) {
+			System.out.println("Delete operation failed... Unable to execute DELETE");
+			e2.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if(i > 1) {
+			System.out.println("Record Deleted...");
+		}
 	}
 
 	@Override
 	public void updateEmployee(Employee e) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	@Override
 	public Employee findEmployee(Employee e) throws EmployeeNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Employee findTemp = null;
+		
+		try {
+			statement = conn.prepareStatement(FIND_COMMAND);
+			statement.setInt(1, e.getId());
+			resultSet = statement.executeQuery();
+			
+			if(!resultSet.next()) {
+				throw new EmployeeNotFoundException(e.getId());
+			}
+			
+			findTemp = new Employee();
+			findTemp.setId(resultSet.getInt("id"));
+			findTemp.setName(resultSet.getString("name"));
+			findTemp.setDepartment(resultSet.getString("department"));
+			findTemp.setDaysAttended(resultSet.getInt("daysAttended"));
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+				resultSet.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		return findTemp;
 	}
 
 	@Override
