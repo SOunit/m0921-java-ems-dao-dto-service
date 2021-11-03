@@ -1,9 +1,9 @@
 package com.ems.main;
 
-import java.util.Iterator;
 import java.util.List;
 
 import com.ems.dto.Employee;
+import com.ems.exception.EmployeeNotFoundException;
 import com.ems.service.EmployeeService;
 import com.ems.service.EmployeeServiceImpl;
 
@@ -30,6 +30,14 @@ public class EmployeeMain {
 		
 		//delete an employee
 		eService.deleteEmployee(1111);
+		
+		//find an employee
+		try {
+			Employee emp = eService.findEmployee(new Employee(2222, "Samuel", "Technology", 25));
+			System.out.println("Employee ID: " + emp.getId() + " | Name: " + emp.getName());
+		} catch (EmployeeNotFoundException e1) {
+			e1.printStackTrace();
+		}
 		
 		
 	}
