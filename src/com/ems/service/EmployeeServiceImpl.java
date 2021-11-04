@@ -7,8 +7,8 @@ import com.ems.dao.EmployeeDAOMySQLImpl;
 import com.ems.dto.Employee;
 import com.ems.exception.EmployeeNotFoundException;
 
-public class EmployeeServiceImpl implements EmployeeService{
-	
+public class EmployeeServiceImpl implements EmployeeService {
+
 	public EmployeeDAO empDAO = new EmployeeDAOMySQLImpl();
 
 	@Override
@@ -24,13 +24,13 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public void deleteEmployee(int id) {
 		empDAO.deleteEmployee(id);
-		
+
 	}
 
 	@Override
 	public void updateEmployee(Employee e) {
-		
-		
+		empDAO.updateEmployee(e);
+
 	}
 
 	@Override
